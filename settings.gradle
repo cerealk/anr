@@ -1,0 +1,3 @@
+rootProject.name = 'anr'
+include 'anr-domain'
+

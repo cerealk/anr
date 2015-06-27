@@ -4,7 +4,7 @@ import it.ck.anr.domain.Identity;
 import it.ck.anr.infrastructure.Event;
 
 public class DeckCreatedEvent implements Event{
-  private final Identity identity;
+  private Identity identity;
 
   public DeckCreatedEvent(Identity identity) {
     this.identity = identity;
@@ -24,5 +24,13 @@ public class DeckCreatedEvent implements Event{
   @Override
   public int hashCode() {
     return identity != null ? identity.hashCode() : 0;
+  }
+
+  public Identity getIdentity() {
+    return identity;
+  }
+
+  public void setIdentity(Identity identity) {
+    this.identity = identity;
   }
 }

@@ -4,8 +4,8 @@ import org.junit.Test;
 
 public class IdentityTest {
 
-  @Test
-  public void anIdentityHasNameReputationAndFaction(){
-    Identity identity = new Identity();
-  }
+//  @Test
+//  public void anIdentityHasNameReputationAndFaction(){
+//    Identity identity = new Identity();
+//  }
 }

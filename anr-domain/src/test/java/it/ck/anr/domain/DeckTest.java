@@ -11,14 +11,17 @@ import org.junit.rules.ExpectedException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.ck.anr.domain.Side.*;
+import static it.ck.anr.domain.Side.CORP;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 public class DeckTest {
 
+  public static final int MINIMUM_SIZE = 2;
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
-  private Identity identity = new Identity(Side.CORP);
+  private Identity identity = new Identity(CORP, MINIMUM_SIZE);
   private Deck deck = new Deck(identity);
 
   @Test
@@ -36,7 +39,7 @@ public class DeckTest {
 
   @Test
   public void iCanAddACard(){
-    Card card = getCard();
+    Card card = getCorpCard();
     deck.add(card);
 
     assertThat(deck.changes(), hasItems((Event) new CardAddedEvent(card)));
@@ -45,13 +48,17 @@ public class DeckTest {
   @Test
   public void iCanAddonlyCardsOfTheFactionOfTheIdentity(){
     expectedException.expect(Deck.SideMismatchException.class);
-    deck.add(new Card(Side.RUNNER));
+    deck.add(getRunnerCard());
   }
 
-//  @Test
-//  public void theSizeOdTheDeckisTheNumberOfCardsAdded(){
-//
-//  }
+  @Test
+  public void aDeckIsValidIfItHasAtLeastTheMinimumSizeForTheIdentity(){
+    deck.add(getCorpCard());
+    deck.add(getCorpCard());
+
+    assertThat(deck.isValid(), is(true));
+  }
+
 
   @Test
   @Ignore
@@ -60,7 +67,7 @@ public class DeckTest {
     expectedException.expect(Deck.TooManyCardsException.class);
 
     Deck deck = new Deck(identity);
-    Card card = getCard();
+    Card card = getCorpCard();
     deck.add(card);
     deck.add(card);
     deck.add(card);
@@ -68,9 +75,12 @@ public class DeckTest {
 
   }
 
-  private Card getCard() {
-    return new Card(Side.CORP);
+  private Card getCorpCard() {
+    return new Card(CORP);
   }
 
+  private Card getRunnerCard() {
+    return new Card(RUNNER);
+  }
 
 }

@@ -4,10 +4,16 @@ import it.ck.anr.domain.Card;
 import it.ck.anr.infrastructure.Event;
 
 public class CardAddedEvent implements Event {
+
+
   private final Card card;
 
   public CardAddedEvent(Card card) {
     this.card = card;
+  }
+
+  public Card getCard() {
+    return card;
   }
 
   @Override

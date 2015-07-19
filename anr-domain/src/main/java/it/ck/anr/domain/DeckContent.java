@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeckContent {
-  public List<Card> cards;
+  private List<Card> cards;
 
   public DeckContent() {
     this.cards = new ArrayList<Card>();
   }
 
-  public int cardCount(Card card) {
+  public int count(Card card) {
     int count = 0;
     if (cards.contains(card)){
       for(Card c : cards){
@@ -22,5 +22,9 @@ public class DeckContent {
 
   public void add(Card card) {
     this.cards.add(card);
+  }
+
+  public int size() {
+    return cards.size();
   }
 }

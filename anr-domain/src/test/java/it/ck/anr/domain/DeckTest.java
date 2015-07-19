@@ -2,6 +2,7 @@ package it.ck.anr.domain;
 
 import it.ck.anr.domain.events.CardAddedEvent;
 import it.ck.anr.domain.events.DeckCreatedEvent;
+import it.ck.anr.domain.fixtures.CardBuilder;
 import it.ck.anr.infrastructure.Event;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -73,13 +74,30 @@ public class DeckTest {
     deck.add(card);
 
   }
+  
+  @Test
+  public void someCardsAreLimitedOnePerDeck(){
+    Deck deck = new Deck(identity);
+    Card limitedCard = getLimitedCard();
+    
+    expectedException.expect(Deck.TooManyCardsException.class);
+    
+    deck.add(limitedCard);
+    deck.add(limitedCard);
+    
+  }
+
+  private Card getLimitedCard() {
+    CardBuilder builder = new CardBuilder(CORP);
+    return builder.limited().build();
+  }
 
   private Card getCorpCard() {
-    return new Card(CORP);
+    return  new CardBuilder(CORP).build();
   }
 
   private Card getRunnerCard() {
-    return new Card(RUNNER);
+    return new CardBuilder(RUNNER).build();
   }
 
 }

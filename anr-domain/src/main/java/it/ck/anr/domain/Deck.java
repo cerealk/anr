@@ -35,7 +35,7 @@ public class Deck extends Aggregate {
     if (!identity().hasSameSideAs(card))
       throw new SideMismatchException();
     
-    if (cards.cardCount(card) >= 3)
+    if (cards.count(card) >= 3 || (cards.count(card) >=1) && card.isLimited())
       throw new TooManyCardsException();
   }
 
@@ -48,7 +48,7 @@ public class Deck extends Aggregate {
   }
 
   private int size() {
-    return cards.cards.size();
+    return cards.size();
   }
 
   public void doApply(DeckCreatedEvent event) {

@@ -30,7 +30,7 @@ public class DeckTest {
   }
 
   @Test
-  public void aDecCanBeCreatedStartingFromEvents(){
+  public void aDeckCanBeCreatedStartingFromEvents(){
     List<Event> eventList = new ArrayList<Event>();
     eventList.add(new DeckCreatedEvent(identity));
     Deck deck = new Deck(eventList);
@@ -61,7 +61,6 @@ public class DeckTest {
 
 
   @Test
-  @Ignore
   public void iCanHaveMaxThreeCardsOfTheSameTypePerDeck(){
 
     expectedException.expect(Deck.TooManyCardsException.class);

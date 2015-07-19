@@ -16,4 +16,8 @@ public class Identity {
   public int minimumSize() {
     return minimumSize;
   }
+
+public boolean hasSameSideAs(Card card) {
+	return side().equals(card.side());
+}
 }

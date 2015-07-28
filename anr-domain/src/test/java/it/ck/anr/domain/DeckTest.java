@@ -1,28 +1,33 @@
 package it.ck.anr.domain;
 
-import it.ck.anr.domain.events.CardAddedEvent;
-import it.ck.anr.domain.events.DeckCreatedEvent;
-import it.ck.anr.domain.fixtures.CardBuilder;
-import it.ck.anr.infrastructure.Event;
+import static it.ck.anr.domain.Faction.ANARCH;
+import static it.ck.anr.domain.Faction.JINTEKI;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static it.ck.anr.domain.Side.*;
-import static it.ck.anr.domain.Side.CORP;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import it.ck.anr.domain.events.CardAddedEvent;
+import it.ck.anr.domain.events.DeckCreatedEvent;
+import it.ck.anr.domain.fixtures.CardBuilder;
+import it.ck.anr.domain.fixtures.DeckBuilder;
+import it.ck.anr.infrastructure.Event;
 
 public class DeckTest {
 
   public static final int MINIMUM_SIZE = 2;
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
-  private Identity identity = new Identity(CORP, MINIMUM_SIZE);
+  private Identity identity = new Identity("test Identity", JINTEKI, MINIMUM_SIZE);
   private Deck deck = new Deck(identity);
 
   @Test
@@ -31,16 +36,8 @@ public class DeckTest {
   }
 
   @Test
-  public void aDeckCanBeCreatedStartingFromEvents(){
-    List<Event> eventList = new ArrayList<Event>();
-    eventList.add(new DeckCreatedEvent(identity));
-    Deck deck = new Deck(eventList);
-    assertThat(deck.changes(), hasSize(0));
-  }
-
-  @Test
   public void iCanAddACard(){
-    Card card = getCorpCard();
+    Card card = corpCard();
     deck.add(card);
 
     assertThat(deck.changes(), hasItems((Event) new CardAddedEvent(card)));
@@ -49,35 +46,40 @@ public class DeckTest {
   @Test
   public void iCanAddonlyCardsOfTheFactionOfTheIdentity(){
     expectedException.expect(Deck.SideMismatchException.class);
-    deck.add(getRunnerCard());
+    deck.add(runnerCard());
   }
 
   @Test
   public void aDeckIsValidIfItHasAtLeastTheMinimumSizeForTheIdentity(){
-    deck.add(getCorpCard());
-    deck.add(getCorpCard());
+    deck.add(corpCard());
+    deck.add(corpCard());
 
     assertThat(deck.isValid(), is(true));
   }
 
 
   @Test
+  @Ignore
   public void iCanHaveMaxThreeCardsOfTheSameTypePerDeck(){
 
     expectedException.expect(Deck.TooManyCardsException.class);
+    
+    given(aDeck().with(3, corpCard()));
+    
+    deck.add(corpCard());
 
-    Deck deck = new Deck(identity);
-    Card card = getCorpCard();
-    deck.add(card);
-    deck.add(card);
-    deck.add(card);
-    deck.add(card);
+  }
+  
+  private void given(DeckBuilder deckBuilder){
+    deck = deckBuilder.build();
+  }
 
+  private DeckBuilder aDeck() {
+    return new DeckBuilder(identity);
   }
   
   @Test
   public void someCardsAreLimitedOnePerDeck(){
-    Deck deck = new Deck(identity);
     Card limitedCard = getLimitedCard();
     
     expectedException.expect(Deck.TooManyCardsException.class);
@@ -86,18 +88,23 @@ public class DeckTest {
     deck.add(limitedCard);
     
   }
+  
+//  @Test
+//  public void influenceLimitsExtraFactionCard(){
+//    
+//  }
 
   private Card getLimitedCard() {
-    CardBuilder builder = new CardBuilder(CORP);
+    CardBuilder builder = new CardBuilder(JINTEKI);
     return builder.limited().build();
   }
 
-  private Card getCorpCard() {
-    return  new CardBuilder(CORP).build();
+  private Card corpCard() {
+    return  new CardBuilder(JINTEKI).build();
   }
 
-  private Card getRunnerCard() {
-    return new CardBuilder(RUNNER).build();
+  private Card runnerCard() {
+    return new CardBuilder(ANARCH).build();
   }
 
 }

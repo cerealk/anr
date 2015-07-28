@@ -1,15 +1,28 @@
 package it.ck.anr.domain.fixtures;
 
+import static it.ck.anr.domain.Faction.ANARCH;
+
 import it.ck.anr.domain.Card;
-import it.ck.anr.domain.Side;
+import it.ck.anr.domain.CardId;
+import it.ck.anr.domain.Faction;
 
 public class CardBuilder {
 
-  private Side side;
-  private boolean limited;
+  private Faction faction = ANARCH;
+  private boolean limited = false;
+  private CardId id;
 
-  public CardBuilder(Side side) {
-    this.side = side;
+  public CardBuilder(CardId id){
+    this.id = id;
+  }
+  
+  public CardBuilder(Faction faction) {
+    this.faction = faction;
+  }
+  
+  public CardBuilder ofFaction(Faction faction){
+    this.faction = faction;
+    return this;
   }
   
   public CardBuilder limited(){
@@ -18,6 +31,6 @@ public class CardBuilder {
   }
 
   public Card build(){
-    return new Card(side, limited);
+    return new Card(id, faction, limited);
   }
 }

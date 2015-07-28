@@ -1,16 +1,16 @@
 package it.ck.anr.infrastructure;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import static org.junit.rules.ExpectedException.none;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class AggregateChangeTest {
 
@@ -45,16 +45,20 @@ public class AggregateChangeTest {
     assertThat(aggregate.changes(), hasSize(0));
   }
 
+  
+   //TODO: meaningless test!!!!
   @Test
-  public void anAggregateCanBeCratedStartingFromEvents(){
+  public void anAggregateCanBeInitializedStartingFromEvents(){
     List<Event> events = new ArrayList<Event>();
     events.add(new Event(){});
     events.add(new Event(){});
 
-    Aggregate aggregate = new Aggregate(events) {
+    Aggregate aggregate = new Aggregate() {
       public void doApply(Event event){
 
       };
     };
+    
+    aggregate.pastEvents(events);
   }
 }

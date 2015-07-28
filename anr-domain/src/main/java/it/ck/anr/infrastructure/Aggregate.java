@@ -7,20 +7,20 @@ import java.util.List;
 
 public abstract class Aggregate {
 
+  public static class NullEventException extends RuntimeException{
+  }
+  
+  public static class UnsupportedEventException extends RuntimeException{
+  }
+
   private List<Event> uncommittedChanges = new ArrayList<Event>();
 
   public Aggregate(){}
 
-  public Aggregate(List<Event> eventList) {
+  public void pastEvents(List<Event> eventList) {
     for(Event evt : eventList){
       doApply(evt);
     }
-  }
-
-  public static class NullEventException extends RuntimeException{
-  }
-
-  public static class UnsupportedEventException extends RuntimeException{
   }
 
   public final void apply(Event event) {
@@ -32,11 +32,14 @@ public abstract class Aggregate {
     this.uncommittedChanges.add(event);
   }
 
+  //TODO: separare lookup e invocazione del metodo. Gestire meglio le eccezioni
+  //TODO: probabilmente dovrebbe essere inserito un oggetto per separare il dominio dall'oggetot Method
   private void doApply(Event event) {
     try {
       Method doApplyMethod = this.getClass().getDeclaredMethod("doApply", event.getClass());
       doApplyMethod.invoke(this, event);
     } catch (NoSuchMethodException e) {
+      //the event is not relevant to this aggreagte
     } catch (InvocationTargetException e) {
       throw new UnsupportedEventException();
     } catch (IllegalAccessException e) {

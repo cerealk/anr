@@ -1,13 +1,13 @@
 package it.ck.anr.infrastructure;
 
-import org.junit.Test;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import org.junit.Test;
 
 public class AggregateBehaviouralTest {
 
@@ -20,7 +20,7 @@ public class AggregateBehaviouralTest {
     }
 
     public TestAggregate(List<Event> eventList) {
-      super(eventList);
+      pastEvents(eventList);
     }
 
     protected void doApply(TestEvent event){

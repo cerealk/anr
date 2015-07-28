@@ -12,18 +12,19 @@ public class Deck extends Aggregate {
   private DeckContent cards = new DeckContent();
 
   public class SideMismatchException extends RuntimeException {
+    private static final long serialVersionUID = -5944143115034905975L;
   }
 
   public class TooManyCardsException extends RuntimeException {
+    private static final long serialVersionUID = 893903652275064344L;
   }
   
   public Deck(Identity identity) {
-    super();
     apply(new DeckCreatedEvent(identity));
   }
 
   public Deck(List<Event> eventList) {
-    super(eventList);
+    pastEvents(eventList);
   }
 
   public void add(Card card) {

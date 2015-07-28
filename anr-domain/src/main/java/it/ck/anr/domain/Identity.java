@@ -1,23 +1,29 @@
 package it.ck.anr.domain;
 
 public class Identity {
-  private final Side side;
   private final int minimumSize;
+  private final String name;
+  private final Faction faction;
 
-  public Identity(Side side, int minimumSize) {
-    this.side = side;
-    this.minimumSize = minimumSize;
+  public Identity(String name, Faction faction, int minimumDeckSize) {
+    this.name = name;
+    this.faction = faction;
+    this.minimumSize = minimumDeckSize;
   }
 
   public Side side() {
-    return side;
+    return faction.side();
   }
 
   public int minimumSize() {
     return minimumSize;
   }
 
-public boolean hasSameSideAs(Card card) {
-	return side().equals(card.side());
-}
+  public boolean hasSameSideAs(Card card) {
+    return side().equals(card.side());
+  }
+
+  public boolean hasSameFactionAs(Card card) {
+    return this.faction.equals(card.faction());
+  }
 }

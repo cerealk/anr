@@ -27,4 +27,14 @@ public class DeckContent {
   public int size() {
     return cards.size();
   }
+  
+  public List<Card> outOfFaction(Identity identity){
+    List<Card> outOfFactionsCard = new ArrayList<Card>();
+    for(Card card : cards){
+      if(!identity.hasSameFactionAs(card))
+        outOfFactionsCard.add(card);
+    }
+    
+    return outOfFactionsCard;
+  }
 }

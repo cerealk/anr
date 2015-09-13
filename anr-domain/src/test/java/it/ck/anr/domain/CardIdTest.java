@@ -1,7 +1,5 @@
 package it.ck.anr.domain;
 
-import static org.junit.Assert.*;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

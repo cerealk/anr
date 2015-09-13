@@ -6,11 +6,13 @@ public class Card {
   private final CardId id;
   private final Faction faction;
   private final boolean limited;
+  private int influenceCost;
 
-  public Card(CardId id, Faction faction, boolean limited) {
+  public Card(CardId id, Faction faction, boolean limited, int influenceCost) {
     this.id = id;
     this.faction = faction;
     this.limited = limited;
+    this.influenceCost = influenceCost;
   }
 
   public Side side() { return faction.side(); }
@@ -46,6 +48,10 @@ public class Card {
     } else if (!id.equals(other.id))
       return false;
     return true;
+  }
+
+  public int influenceCost() {
+    return influenceCost;
   }
   
   

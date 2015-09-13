@@ -23,7 +23,7 @@ public class CardAddedEvent implements Event {
 
     CardAddedEvent that = (CardAddedEvent) o;
 
-    return !(card != null ? !card.equals(that.card) : that.card != null);
+    return card.equals(that.card);
 
   }
 

@@ -18,6 +18,10 @@ public class DeckBuilder {
     events.add(new DeckCreatedEvent(identity));
   }
   
+  public DeckBuilder(IdentityBuilder identity) {
+     events.add(new DeckCreatedEvent(identity.build()));
+  }
+
   public Deck build(){
     return new Deck(events);
   }

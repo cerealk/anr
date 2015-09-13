@@ -8,9 +8,11 @@ import java.util.List;
 public abstract class Aggregate {
 
   public static class NullEventException extends RuntimeException{
+    private static final long serialVersionUID = 8594298824155772481L;
   }
   
   public static class UnsupportedEventException extends RuntimeException{
+    private static final long serialVersionUID = 1802524654433100789L;
   }
 
   private List<Event> uncommittedChanges = new ArrayList<Event>();

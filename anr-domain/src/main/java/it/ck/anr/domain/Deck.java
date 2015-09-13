@@ -8,6 +8,8 @@ import it.ck.anr.infrastructure.Aggregate;
 import it.ck.anr.infrastructure.Event;
 
 public class Deck extends Aggregate {
+
+
   private Identity identity;
   private DeckContent cards = new DeckContent();
 
@@ -17,6 +19,10 @@ public class Deck extends Aggregate {
 
   public class TooManyCardsException extends RuntimeException {
     private static final long serialVersionUID = 893903652275064344L;
+  }
+  
+  public class InfluenceExceededException extends RuntimeException {
+    private static final long serialVersionUID = 3813756562848705945L;
   }
   
   public Deck(Identity identity) {
@@ -38,6 +44,21 @@ public class Deck extends Aggregate {
     
     if (cards.count(card) >= 3 || (cards.count(card) >=1) && card.isLimited())
       throw new TooManyCardsException();
+    
+    if(!identity().hasSameFactionAs(card)){
+      if(influence() + card.influenceCost() > identity().getInfluence()){
+        throw new InfluenceExceededException();
+      }
+    }
+  }
+
+  private int influence() {
+    List<Card> outOfFactionCards = cards.outOfFaction(identity());
+    int influence = 0;
+    for(Card card :outOfFactionCards)
+      influence += card.influenceCost();
+    
+    return influence;
   }
 
   private Identity identity() {

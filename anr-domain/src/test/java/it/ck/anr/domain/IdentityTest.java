@@ -15,7 +15,8 @@ import it.ck.anr.domain.fixtures.CardBuilder;
 public class IdentityTest {
 
   private static final int MINIMUM_DECK_SIZE = 5;
-  private Identity anarchIdentity = new Identity("identityName", ANARCH, MINIMUM_DECK_SIZE);
+  private static final int REPUTATION = 10;
+  private Identity anarchIdentity = new Identity("identityName", ANARCH, MINIMUM_DECK_SIZE, REPUTATION);
 
   @Test
   public void testSameSide(){

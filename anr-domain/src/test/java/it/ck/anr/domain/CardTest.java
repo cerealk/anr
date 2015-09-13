@@ -12,7 +12,7 @@ import it.ck.anr.domain.fixtures.CardBuilder;
 public class CardTest {
 
   @Test
-  public void twoCardsAreEqualsIfTheyShareTheSameId() {
+  public void twoCardsAreEqualsIfTheyHaveTheSameId() {
     CardId id = new CardId("001", "01");
     Card card1 = new CardBuilder(id).build();
     Card card2 = new CardBuilder(id).build();

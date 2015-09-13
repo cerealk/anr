@@ -11,6 +11,7 @@ public class CardBuilder {
   private Faction faction = ANARCH;
   private boolean limited = false;
   private CardId id;
+  private int influenceCost =0;
 
   public CardBuilder(CardId id){
     this.id = id;
@@ -31,6 +32,11 @@ public class CardBuilder {
   }
 
   public Card build(){
-    return new Card(id, faction, limited);
+    return new Card(id, faction, limited, influenceCost);
+  }
+
+  public CardBuilder withInfluenceCost(int influenceCost) {
+    this.influenceCost = influenceCost;
+    return this;
   }
 }
